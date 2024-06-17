@@ -1,0 +1,12 @@
+GRUPO 4 - Preguntas para consultar en la base de datos:
+
+1. ¿Cuál ha sido el mes del año 2023 en el que más pedidos se ingresaron?
+2. ¿Cuánto tiempo en promedio en minutos ha tomado entre el ingreso de un pedido (estado ingresado | id_estado_p = '1') y su entrega al cliente (estado entregado | id_estado_p = '3') en el primer trimestre del año 2023?
+3. ¿Cuál es la facturación de la categoría de productos más pedida en el primer semestre del año 2023?
+4. ¿Cuál es la facturación de los 3 clientes que registraron más pedidos en el último trimestre del año 2023?
+5. ¿Qué vendedor ha generado mayor facturación en el segundo semestre del año 2023?
+6. ¿Cuál es el porcentaje de participación de ventas de cada vendedor en el último trimestre del año 2023?
+7. ¿Cuál es el incremento porcentual de pedidos comparado entre el tercer y cuarto trimestre del año 2023 para cada vendedor?
+8. ¿Qué categorías de productos ha generado la menor y mayor facturación en el departamento de Lima el último trimestre del año 2023?
+9. ¿Cuáles son los 3 productos más pedidos del último trimestre del año 2023 y qué porcentaje de facturación representa cada uno? 
+10. ¿Cuáles son los 3 clientes que han tenido el mayor incremento en el valor de los pedidos en el segundo semestre del año 2023 comparado con el primer semestre?

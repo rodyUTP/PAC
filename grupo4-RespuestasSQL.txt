@@ -1,0 +1,132 @@
+GRUPO 4 - Respuestas a las preguntas en SQL
+
+/* PREGUNTA 01 */
+SELECT TOP 1 MONTH(fecha_pedido) AS Mes, COUNT(*) AS TotalPedidos
+FROM grupo04.PEDIDO
+WHERE YEAR(fecha_pedido) = 2023
+GROUP BY MONTH(fecha_pedido)
+ORDER BY COUNT(*) DESC;
+
+/* PREGUNTA 02 */
+select
+T0.Id_Incidencia,
+T1.Fecha_Hora_Registro,
+T0.Fecha_Hora_Inicial_Reparacion,
+(case when T1.Fecha_Hora_Registro > T0.Fecha_Hora_Inicial_Reparacion then 'ERROR' else  null end) Status
+from grupo03.Cabera_Reg_Mantenimiento T0
+-----------------------------------
+inner join grupo03.Incidencia T1 on
+T0.Id_Incidencia = T1.Id_Incidencia
+
+select avg(minutos)
+from
+(
+select id_pedido, estado_1, estado_3, datediff(minute, estado_1, estado_3) minutos
+from
+(
+select id_pedido, 
+( select hora_estado fecha_hora from [grupo04].[PEDIDO_ESTADO] 
+where id_pedido = pe.id_pedido and id_estado_p = 1) estado_1,
+( select hora_estado fecha_hora from [grupo04].[PEDIDO_ESTADO] 
+where id_pedido = pe.id_pedido and id_estado_p = 3) estado_3
+from [grupo04].[PEDIDO_ESTADO] pe
+) a
+group by id_pedido, estado_1, estado_3
+) b
+						
+/* PREGUNTA 03 */
+SELECT TOP 1 C.nombre_categoria, SUM(DP.subtotal) AS TotalFacturacion
+FROM grupo04.DETALLE_PEDIDO DP
+JOIN grupo04.PRODUCTO PR ON DP.id_producto = PR.id_producto
+JOIN grupo04.CATEGORIAS C ON PR.id_categoria = C.id_categoria
+JOIN grupo04.PEDIDO P ON DP.id_pedido = P.id_pedido
+WHERE YEAR(P.fecha_pedido) = 2023 AND MONTH(P.fecha_pedido) BETWEEN 1 AND 6
+GROUP BY C.nombre_categoria
+ORDER BY SUM(DP.subtotal) DESC;
+
+/* PREGUNTA 04 */
+SELECT TOP 3 C.nombre, C.apellido, SUM(DP.subtotal) AS TotalFacturacion
+FROM grupo04.CLIENTE C
+JOIN grupo04.PEDIDO P ON C.id_cliente = P.id_cliente
+JOIN grupo04.DETALLE_PEDIDO DP ON P.id_pedido = DP.id_pedido
+WHERE YEAR(P.fecha_pedido) = 2023 AND MONTH(P.fecha_pedido) BETWEEN 10 AND 12
+GROUP BY C.nombre, C.apellido
+ORDER BY SUM(DP.subtotal) DESC;
+
+/* PREGUNTA 05 */
+SELECT TOP 1 V.nombre, V.apellido, SUM(DP.subtotal) AS TotalFacturacion
+FROM grupo04.VENDEDOR V
+JOIN grupo04.PEDIDO P ON V.id_vendedor = P.id_vendedor
+JOIN grupo04.DETALLE_PEDIDO DP ON P.id_pedido = DP.id_pedido
+WHERE YEAR(P.fecha_pedido) = 2023 AND MONTH(P.fecha_pedido) BETWEEN 7 AND 12
+GROUP BY V.nombre, V.apellido
+ORDER BY SUM(DP.subtotal) DESC;
+
+/* PREGUNTA 06 */
+;WITH TotalSales AS (
+  SELECT SUM(DP.subtotal) AS Total
+  FROM grupo04.DETALLE_PEDIDO DP
+  JOIN grupo04.PEDIDO P ON DP.id_pedido = P.id_pedido
+  WHERE YEAR(P.fecha_pedido) = 2023 AND MONTH(P.fecha_pedido) BETWEEN 10 AND 12
+)
+SELECT V.nombre, V.apellido, SUM(DP.subtotal) AS TotalFacturacion, (SUM(DP.subtotal) / TS.Total) * 100 AS PercentageOfSales
+FROM grupo04.VENDEDOR V
+JOIN grupo04.PEDIDO P ON V.id_vendedor = P.id_vendedor
+JOIN grupo04.DETALLE_PEDIDO DP ON P.id_pedido = DP.id_pedido
+CROSS JOIN TotalSales TS
+WHERE YEAR(P.fecha_pedido) = 2023 AND MONTH(P.fecha_pedido) BETWEEN 10 AND 12
+GROUP BY V.nombre, V.apellido, TS.Total;
+
+/* PREGUNTA 07 */
+
+/* PREGUNTA 08 */
+
+/* PREGUNTA 09 */
+;WITH TotalSales AS (
+    SELECT SUM(DP.subtotal) AS Total
+    FROM grupo04.DETALLE_PEDIDO DP
+    JOIN grupo04.PEDIDO P ON DP.id_pedido = P.id_pedido
+    WHERE YEAR(P.fecha_pedido) = 2023 AND MONTH(P.fecha_pedido) BETWEEN 10 AND 12
+)
+SELECT TOP 3 PR.nombre_producto, DP.subtotal, (DP.subtotal / TS.Total) * 100 AS PorcentajeFacturacion
+FROM grupo04.DETALLE_PEDIDO DP
+JOIN grupo04.PEDIDO P ON DP.id_pedido = P.id_pedido
+JOIN grupo04.PRODUCTO PR ON DP.id_producto = PR.id_producto
+CROSS JOIN TotalSales TS
+WHERE YEAR(P.fecha_pedido) = 2023 AND MONTH(P.fecha_pedido) BETWEEN 10 AND 12
+GROUP BY PR.nombre_producto, DP.subtotal, TS.Total
+ORDER BY (DP.subtotal / TS.Total) * 100 DESC;
+
+
+/* PREGUNTA 10 */
+WITH ClienteS1 AS (
+    SELECT 
+        id_cliente, 
+        SUM(subtotal) AS TotalS1
+    FROM grupo04.PEDIDO P
+    JOIN grupo04.DETALLE_PEDIDO DP ON P.id_pedido = DP.id_pedido
+    WHERE YEAR(fecha_pedido) = 2023 AND MONTH(fecha_pedido) BETWEEN 1 AND 6
+    GROUP BY id_cliente
+),
+ClienteS2 AS (
+    SELECT 
+        id_cliente, 
+        SUM(subtotal) AS TotalS2
+    FROM grupo04.PEDIDO P
+    JOIN grupo04.DETALLE_PEDIDO DP ON P.id_pedido = DP.id_pedido
+    WHERE YEAR(fecha_pedido) = 2023 AND MONTH(fecha_pedido) BETWEEN 7 AND 12
+    GROUP BY id_cliente
+)
+SELECT TOP 3
+    C.id_cliente, 
+    C.nombre, 
+    C.apellido,
+    S1.TotalS1,
+    S2.TotalS2,
+    ((S2.TotalS2 - S1.TotalS1) * 100 / S2.TotalS2) AS [% Incremento]
+FROM ClienteS1 S1
+JOIN ClienteS2 S2 ON S1.id_cliente = S2.id_cliente
+JOIN grupo04.CLIENTE C ON S1.id_cliente = C.id_cliente
+WHERE S2.TotalS2 > S1.TotalS1
+ORDER BY [% Incremento] DESC;
+"						
