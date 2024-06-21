@@ -1,0 +1,28 @@
+*****************************************************************************************
+UNIVERSIDAD CONTINENTAL
+
+Escuela de Posgrado
+Maestría en Ciencia de Datos
+*****************************************************************************************
+
+
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+BASE DE DATOS DE GESTIÓN DE PEDIDOS PARA UNA EMPRESA DE VENTA DE PRODUCTOS INDUSTRIALES
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+Curso:
+
+- GESTIÓN DE DATOS Y BASES DE DATOS CON SQL-23MCDAP002-PSMA-00611-2443-202401
+
+Docente
+
+- Ferrandiz Langley, Alan Claus 
+
+Grupo Nº4
+
+- Fernandez Delgado, Abel
+- Fernandez Delgado, Rody
+- Marquez Montoya, G. Andre 
+- Yactayo Castañeda, David
