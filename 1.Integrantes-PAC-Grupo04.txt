@@ -5,7 +5,6 @@ Escuela de Posgrado
 Maestría en Ciencia de Datos
 *****************************************************************************************
 
-
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
 BASE DE DATOS DE GESTIÓN DE PEDIDOS PARA UNA EMPRESA DE VENTA DE PRODUCTOS INDUSTRIALES
@@ -26,3 +25,10 @@ Grupo Nº4
 - Fernandez Delgado, Rody
 - Marquez Montoya, G. Andre 
 - Yactayo Castañeda, David
+
+
+*** DESCRIPCIÓN DE LA BASE DE DATOS ***
+
+Esta base de datos está diseñada para facilitar el proceso de pedidos y gestión de inventario en una empresa. Permite a los clientes seleccionar y pedir productos, especificando la cantidad deseada. Una vez realizado el pedido, se asigna un vendedor responsable de coordinar los pagos y actualizar el estado del pedido desde "ingresado", pasando por "listo", hasta "entregado".
+
+Además, la base de datos registra las compras hechas a proveedores, lo cual ayuda a gestionar el inventario de manera eficiente. Esto se logra mediante la actualización automática del stock, restando las unidades vendidas y añadiendo las compradas.
